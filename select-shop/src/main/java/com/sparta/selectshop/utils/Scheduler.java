@@ -35,7 +35,7 @@ public class Scheduler {
             String resultString = naverShopSearch.search(title);
             // i 번째 관심 상품의 검색 결과 목록 중에서 첫 번째 결과를 꺼냅니다.
             List<ItemDto> itemDtoList = naverShopSearch.fromJSONtoItems(resultString);
-            ItemDto itemDto = itemDtoList.get(0);
+            ItemDto itemDto = itemDtoList.get(0); // 유사도가 가장 높은 상품 가져오기
             // i 번째 관심 상품 정보를 업데이트합니다.
             Long id = p.getId();
             productService.updateBySearch(id, itemDto);

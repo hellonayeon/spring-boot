@@ -1,13 +1,12 @@
 package com.sparta.selectshop.controller;
 
 import com.sparta.selectshop.models.Product;
+import com.sparta.selectshop.models.ProductMypriceRequestDto;
 import com.sparta.selectshop.models.ProductRepository;
 import com.sparta.selectshop.models.ProductRequestDto;
+import com.sparta.selectshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
 public class ProductRestController {
 
     private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping("/api/products")
     public List<Product> readProducts() {
@@ -26,5 +26,10 @@ public class ProductRestController {
     public Product createProduct(@RequestBody ProductRequestDto requestDto) {
         Product product = new Product(requestDto);
         return productRepository.save(product);
+    }
+
+    @PutMapping("/api/products/{id}")
+    public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) {
+        return productService.update(id, requestDto);
     }
 }

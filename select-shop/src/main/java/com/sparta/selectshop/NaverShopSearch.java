@@ -14,8 +14,8 @@ public class NaverShopSearch {
     public String search(String query) {
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Naver-Client-Id", "X-NAVER-CLIENT-ID");
-        headers.add("X-Naver-Client-Secret", "X-NAVER-CLIENT-SECRET");
+        headers.add("X-Naver-Client-Id", System.getenv("X_NAVER_CLIENT_ID"));
+        headers.add("X-Naver-Client-Secret", System.getenv("X_NAVER_CLIENT_SECRET"));
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);

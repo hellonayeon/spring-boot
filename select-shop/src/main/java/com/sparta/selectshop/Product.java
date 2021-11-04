@@ -27,7 +27,7 @@ public class Product extends Timestamped{
     @Column(nullable = false)
     private String link;
 
-    @Column(nullable = false)
+    @Column(name="lowprice", nullable = false)
     private int lprice;
 
     @Column(nullable = false)

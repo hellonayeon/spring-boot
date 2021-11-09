@@ -18,7 +18,6 @@ public class UserService {
     private final UserRepository userRepository;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
-
     public User registerUser(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         // 회원 ID 중복 확인

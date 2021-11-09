@@ -6,8 +6,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing // 시간 자동 변경이 가능하도록 합니다.
-@ServletComponentScan
+@EnableJpaAuditing
 public class ItemBasketApplication {
 
     public static void main(String[] args) {

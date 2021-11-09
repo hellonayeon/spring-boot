@@ -1,4 +1,4 @@
-package com.sparta.itembasket;
+package com.sparta.itembasket.domain;
 
 import lombok.Getter;
 import lombok.Setter;

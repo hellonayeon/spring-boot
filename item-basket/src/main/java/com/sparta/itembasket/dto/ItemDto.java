@@ -1,4 +1,4 @@
-package com.sparta.itembasket;
+package com.sparta.itembasket.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

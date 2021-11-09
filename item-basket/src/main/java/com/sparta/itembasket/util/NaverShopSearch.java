@@ -1,5 +1,6 @@
-package com.sparta.itembasket;
+package com.sparta.itembasket.util;
 
+import com.sparta.itembasket.dto.ItemDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.*;

@@ -7,6 +7,8 @@ import com.sparta.itembasket.service.ProductService;
 import com.sparta.itembasket.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
@@ -25,16 +27,29 @@ public class ProductController {
     }
 
     // (관리자용) 등록된 모든 상품 목록 조회
+    @Secured("ROLE_ADMIN")
     @GetMapping("/api/admin/products")
-    public List<Product> getAllProducts() throws SQLException {
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc
+    ) {
+        return productService.getAllProducts(page , size, sortBy, isAsc);
     }
 
-    // 등록된 전체 상품 목록 조회
+    // 로그인한 회원이 등록한 상품들 조회
     @GetMapping("/api/products")
-    public List<Product> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+    public Page<Product> getProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         Long userId = userDetails.getUser().getId();
-        return productService.getProducts(userId);
+        page = page - 1;
+        return productService.getProducts(userId, page , size, sortBy, isAsc);
     }
 
     // 신규 상품 등록

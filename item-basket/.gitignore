@@ -38,3 +38,7 @@ out/
 
 ### Secret ###
 src/main/resources/static/secret
+
+# H2 db
+/itembasketdb.mv.db
+/itembasketdb.trace.db

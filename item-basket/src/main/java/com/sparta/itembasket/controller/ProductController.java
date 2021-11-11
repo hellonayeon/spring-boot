@@ -1,20 +1,18 @@
 package com.sparta.itembasket.controller;
 
 import com.sparta.itembasket.domain.Product;
+import com.sparta.itembasket.domain.User;
 import com.sparta.itembasket.dto.ProductMypriceRequestDto;
 import com.sparta.itembasket.dto.ProductRequestDto;
 import com.sparta.itembasket.service.ProductService;
 import com.sparta.itembasket.service.UserDetailsImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import java.sql.SQLException;
-import java.util.List;
 
-@RestController
+@RestController // JSON으로 데이터를 주고받음을 선언합니다.
 public class ProductController {
     // 멤버 변수 선언
     private final ProductService productService;
@@ -24,18 +22,6 @@ public class ProductController {
     public ProductController(ProductService productService) {
         // 멤버 변수 생성
         this.productService = productService;
-    }
-
-    // (관리자용) 등록된 모든 상품 목록 조회
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/api/admin/products")
-    public Page<Product> getAllProducts(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
-            @RequestParam("sortBy") String sortBy,
-            @RequestParam("isAsc") boolean isAsc
-    ) {
-        return productService.getAllProducts(page , size, sortBy, isAsc);
     }
 
     // 로그인한 회원이 등록한 상품들 조회
@@ -54,15 +40,43 @@ public class ProductController {
 
     // 신규 상품 등록
     @PostMapping("/api/products")
-    public Product createProduct(@RequestBody ProductRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+    public Product createProduct(@RequestBody ProductRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 로그인 되어 있는 ID
         Long userId = userDetails.getUser().getId();
-        return productService.createProduct(requestDto, userId);
+
+        Product product = productService.createProduct(requestDto, userId);
+        // 응답 보내기
+        return product;
     }
 
     // 설정 가격 변경
     @PutMapping("/api/products/{id}")
-    public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) throws SQLException {
+    public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) {
         Product product = productService.updateProduct(id, requestDto);
+        // 응답 보내기
+        return product.getId();
+    }
+
+    // (관리자용) 등록된 모든 상품 목록 조회
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/api/admin/products")
+    public Page<Product> getAllProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc
+    ) {
+        return productService.getAllProducts(page , size, sortBy, isAsc);
+    }
+
+    // 상품에 폴더 추가
+    @PostMapping("/api/products/{id}/folder")
+    public Long addFolder(@PathVariable Long id,
+                          @RequestParam("folderId") Long folderId,
+                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        Product product = productService.addFolder(id, folderId, user);
+        // 응답 보내기
         return product.getId();
     }
 }

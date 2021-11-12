@@ -29,6 +29,10 @@ dependencies {
 
     // json
     implementation 'org.json:json:20210307'
+    // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // thymeleaf (view template engine)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {

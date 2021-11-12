@@ -32,7 +32,20 @@ $(document).ready(function () {
     $('#search-area').hide();
 
     showProduct();
+
+    $("#username").html(localStorage.getItem("username"));
+    $("#logout-text").click(function(){
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        location.href = '/user/login';
+    });
 })
+
+$.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+    if(localStorage.getItem('token')) {
+        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    }
+});
 
 function showProduct(folderId = null) {
     var dataSource = null;

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
     <script>
@@ -24,28 +25,45 @@
                 box.style.display = "none";
             }
         }
+
+        function signup() {
+            let info = {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                email: $("#email").val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: `/signup`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) {
+                    alert("회원가입이 완료되었습니다!!");
+                    location.href = '/user/login';
+                }
+            })
+        }
     </script>
 </head>
 <body>
 <div id="login-form">
     <div id="login-title">Sign up Select Shop</div>
 
-    <form action="/user/signup" method="post">
-        <div class="login-id-label">Username</div>
-        <input type="text" name="username" placeholder="Username" class="login-input-box">
+    <div class="login-id-label">Username</div>
+    <input type="text" id="username" placeholder="Username" class="login-input-box">
 
-        <div class="login-id-label">Password</div>
-        <input type="password" name="password" class="login-input-box">
+    <div class="login-id-label">Password</div>
+    <input type="password" id="password" class="login-input-box">
 
-        <div class="login-id-label">E-mail</div>
-        <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+    <div class="login-id-label">E-mail</div>
+    <input type="text" id="email" placeholder="E-mail" class="login-input-box">
 
-        <div>
-            <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자
-            <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box" style="display:none">
-        </div>
-        <button id="login-id-submit">회원 가입</button>
-    </form>
+    <div>
+        <input id="admin-check" type="checkbox" name="admin" onclick="onclickAdmin()" style="margin-top: 40px;">관리자
+        <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box"
+               style="display:none">
+    </div>
+    <button id="login-id-submit" onclick="signup()">회원 가입</button>
 </div>
 </body>
 </html>

@@ -12,11 +12,9 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class KakaoOAuth2 {
-    public KakaoUserInfo getUserInfo(String authorizedCode) {
-        // 1. 인가코드 -> 액세스 토큰
-        String accessToken = getAccessToken(authorizedCode);
+    public KakaoUserInfo getUserInfo(String token) {
         // 2. 액세스 토큰 -> 카카오 사용자 정보
-        KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
+        KakaoUserInfo userInfo = getUserInfoByToken(token);
 
         return userInfo;
     }

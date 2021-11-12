@@ -1,11 +1,9 @@
 package com.sparta.springcore.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.json.JSONObject;
 
 
-@NoArgsConstructor // 기본 생성자
 @Getter
 public class ItemDto {
     private String title;

@@ -22,16 +22,9 @@ public class NaverShopSearch {
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
+
         ResponseEntity<String> responseEntity = rest.exchange("https://openapi.naver.com/v1/search/shop.json?query=" + query, HttpMethod.GET, requestEntity, String.class);
-
-        HttpStatus httpStatus = responseEntity.getStatusCode();
-        int status = httpStatus.value();
-
         String response = responseEntity.getBody();
-
-        System.out.println("Response status: " + status);
-        System.out.println(response);
-
         return response;
     }
 

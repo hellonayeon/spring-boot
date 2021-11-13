@@ -16,6 +16,8 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
+    public List<Product> getAllProducts() { return productRepository.findAll(); }
+
     public List<Product> getProducts(Long userId) {
         return productRepository.findAllByUserId(userId);
     }

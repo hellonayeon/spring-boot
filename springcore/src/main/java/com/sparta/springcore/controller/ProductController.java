@@ -6,6 +6,7 @@ import com.sparta.springcore.dto.ProductRequestDto;
 import com.sparta.springcore.security.UserDetailsImpl;
 import com.sparta.springcore.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,12 @@ public class ProductController {
 
     /* 사용자별 상품 조회 */
     @GetMapping("/api/products")
-    public List<Product> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-        return productService.getProducts(userDetails.getUser().getId());
+    public Page<Product> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                     @RequestParam("page") int page,
+                                     @RequestParam("size") int size,
+                                     @RequestParam("sortBy") String sortBy,
+                                     @RequestParam("isAsc") boolean isAsc) {
+        return productService.getProducts(userDetails.getUser().getId(), page-1, size, sortBy, isAsc);
     }
 
     /* 상품 등록 */

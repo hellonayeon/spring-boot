@@ -38,3 +38,8 @@ out/
 
 ### Secret ###
 src/main/resources/static/secret
+
+### H2 database ###
+springcoredb.mv.db
+springcoredb.trace.db
+springcoredb.lock.db

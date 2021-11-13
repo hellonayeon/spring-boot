@@ -2,6 +2,7 @@ package com.sparta.springcore.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/images/**", "/css/**").permitAll() // 특정 리소스 요청을 '권한 없이' 허용 (URL 허용 정책 변경)
+                .antMatchers("/images/**", "/css/**", "/secret/**").permitAll() // 특정 리소스 요청을 '권한 없이' 허용 (URL 허용 정책 변경)
                 .antMatchers("/user/**").permitAll() // 특정 API 요청을 '권한 없이' 허용
                 .anyRequest().authenticated() // 모든 요청은 '인증 완료' 후에 허용
                 .and()
@@ -41,5 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

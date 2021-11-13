@@ -20,6 +20,13 @@ public class UserController {
         return "login";
     }
 
+    /* 카카오 로그인 콜백 */
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(String code) {
+        userService.kakaoLogin(code); // Authorized Code: 카카오 서버로부터 받은 인가 코드
+        return "redirect:/";
+    }
+
     /* 로그인 페이지: 로그인 실패 시 다시 로그인 페이지 리턴 */
     @GetMapping("/user/login/error")
     public String loginError(Model model) {

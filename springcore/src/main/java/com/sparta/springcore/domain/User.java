@@ -15,6 +15,9 @@ public class User extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = true)
+    private Long kakaoId;
+
     @Column(nullable = false)
     private String username;
 
@@ -29,6 +32,14 @@ public class User extends Timestamped {
     private UserRole role;
 
     public User(String username, String password, String email, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User(Long kakaoId, String username, String password, String email, UserRole role) {
+        this.kakaoId = kakaoId;
         this.username = username;
         this.password = password;
         this.email = email;

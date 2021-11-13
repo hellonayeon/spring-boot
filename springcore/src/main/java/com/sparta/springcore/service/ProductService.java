@@ -16,13 +16,13 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<Product> getProducts(Long userId) {
+        return productRepository.findAllByUserId(userId);
     }
 
     @Transactional
-    public Product createProduct(ProductRequestDto requestDto) throws SQLException {
-        Product product = new Product(requestDto);
+    public Product createProduct(ProductRequestDto requestDto, Long userId) throws SQLException {
+        Product product = new Product(requestDto, userId);
         productRepository.save(product);
         return product;
     }
@@ -32,7 +32,7 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
-        int myprice = product.getMyprice();
+        int myprice = requestDto.getMyprice();
 
         product.updateMyPrice(myprice);
         return product.getId();

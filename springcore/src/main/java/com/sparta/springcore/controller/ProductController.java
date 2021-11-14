@@ -1,6 +1,7 @@
 package com.sparta.springcore.controller;
 
 import com.sparta.springcore.domain.Product;
+import com.sparta.springcore.domain.User;
 import com.sparta.springcore.dto.ProductMypriceRequestDto;
 import com.sparta.springcore.dto.ProductRequestDto;
 import com.sparta.springcore.security.UserDetailsImpl;
@@ -48,5 +49,13 @@ public class ProductController {
         return productService.updateProduct(id, requestDto);
     }
 
-
+    /* 상품에 폴더 추가 */
+    @PostMapping("/api/products/{id}/folder")
+    public Long addFolder(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                          @PathVariable Long id,
+                          @RequestParam("folderId") Long folderId) {
+        User user = userDetails.getUser();
+        Product product = productService.addFolder(id, folderId, user);
+        return product.getId();
+    }
 }

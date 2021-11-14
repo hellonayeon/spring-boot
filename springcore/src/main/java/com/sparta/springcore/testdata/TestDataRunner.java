@@ -4,6 +4,7 @@ import com.sparta.springcore.domain.Product;
 import com.sparta.springcore.domain.User;
 import com.sparta.springcore.domain.UserRole;
 import com.sparta.springcore.dto.ItemDto;
+import com.sparta.springcore.repository.FolderRepository;
 import com.sparta.springcore.repository.ProductRepository;
 import com.sparta.springcore.repository.UserRepository;
 import com.sparta.springcore.service.UserService;
@@ -18,13 +19,15 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+// @Component
 @RequiredArgsConstructor
 public class TestDataRunner implements ApplicationRunner {
 
     private final UserRepository userRepository;
 
     private final ProductRepository productRepository;
+
+    private final FolderRepository folderRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -34,6 +37,7 @@ public class TestDataRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        folderRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
 

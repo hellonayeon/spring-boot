@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +35,11 @@ public class Product extends Timestamped {
     @Column(nullable = false)
     private Long userId;
 
+    // 여러개의 상품이 하나의 폴더에 들어갈 수 있고, (Product A, B, C in Folder A)
+    // 여러개의 폴더가 한 개의 상품에 들어갈 수 있다. (Folder A, B, C in Product A)
+    @ManyToMany
+    private List<Folder> folderList;
+
     public Product(ProductRequestDto requestDto, Long userId) {
         this.userId = userId;
         this.title = requestDto.getTitle();
@@ -45,5 +51,9 @@ public class Product extends Timestamped {
 
     public void updateMyPrice(int myprice) {
         this.myprice = myprice;
+    }
+
+    public void addFolder(Folder folder) {
+        this.folderList.add(folder);
     }
 }

@@ -3,10 +3,13 @@ package com.sparta.springcore.controller;
 import com.sparta.springcore.domain.Folder;
 import com.sparta.springcore.domain.Product;
 import com.sparta.springcore.dto.FolderCreateRequestDto;
+import com.sparta.springcore.exception.ApiException;
 import com.sparta.springcore.security.UserDetailsImpl;
 import com.sparta.springcore.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +42,18 @@ public class FolderController {
                                              @RequestParam("sortBy") String sortBy,
                                              @RequestParam("isAsc") boolean isAsc) {
         return folderService.getProductsOnFolder(userDetails.getUser(), page-1, size, sortBy, isAsc, folderId);
+    }
+
+    @ExceptionHandler({ IllegalArgumentException.class })
+    public ResponseEntity<Object> handle(IllegalArgumentException ex) {
+        ApiException apiException = new ApiException(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST // http 400 error - client error
+        );
+
+        return new ResponseEntity<>(
+                apiException,
+                HttpStatus.BAD_REQUEST
+        );
     }
 }

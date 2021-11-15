@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +62,12 @@ public class ProductService {
         Folder folder = folderRepository.findById(folderId).orElseThrow(
                 () -> new NullPointerException("해당 폴더 아이디가 존재하지 않습니다.")
         );
+
+        // 이미 동일한 폴더에 추가된 관심상품일 경우
+        Optional<Product> sameProduct = productRepository.findByIdAndFolderList_Id(productId, folderId);
+        if(sameProduct.isPresent()) {
+            throw new IllegalArgumentException("폴더에 이미 해당 상품이 존재합니다.");
+        }
 
         Long userId = user.getId();
         Long productUserId = product.getUserId();

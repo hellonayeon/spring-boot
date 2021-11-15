@@ -1,15 +1,14 @@
 package com.sparta.springcore.controller;
 
 import com.sparta.springcore.domain.Folder;
+import com.sparta.springcore.domain.Product;
 import com.sparta.springcore.dto.FolderCreateRequestDto;
 import com.sparta.springcore.security.UserDetailsImpl;
 import com.sparta.springcore.service.FolderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +28,16 @@ public class FolderController {
     public List<Folder> createFolders(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody FolderCreateRequestDto requestDto) {
         List<String> folderNames = requestDto.getFolderNames();
         return folderService.createFolders(folderNames, userDetails.getUser());
+    }
+
+    /* 폴더별 상품 내용 조회 */
+    @GetMapping("/api/folders/{folderId}/products")
+    public Page<Product> getProductsOnFolder(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                             @PathVariable("folderId") Long folderId,
+                                             @RequestParam("page") int page,
+                                             @RequestParam("size") int size,
+                                             @RequestParam("sortBy") String sortBy,
+                                             @RequestParam("isAsc") boolean isAsc) {
+        return folderService.getProductsOnFolder(userDetails.getUser(), page-1, size, sortBy, isAsc, folderId);
     }
 }

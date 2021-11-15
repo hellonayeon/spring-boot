@@ -1,5 +1,6 @@
 package com.sparta.springcore.domain;
 
+import com.sparta.springcore.dto.ItemDto;
 import com.sparta.springcore.dto.ProductRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,12 @@ public class Product extends Timestamped {
 
     public void addFolder(Folder folder) {
         this.folderList.add(folder);
+    }
+
+    public void updateByItemDto(ItemDto itemDto) {
+        this.title = itemDto.getTitle();
+        this.image = itemDto.getImage();
+        this.link = itemDto.getLink();
+        this.lprice = itemDto.getLprice();
     }
 }

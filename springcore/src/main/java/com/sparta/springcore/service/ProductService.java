@@ -3,6 +3,7 @@ package com.sparta.springcore.service;
 import com.sparta.springcore.domain.Folder;
 import com.sparta.springcore.domain.Product;
 import com.sparta.springcore.domain.User;
+import com.sparta.springcore.dto.ItemDto;
 import com.sparta.springcore.dto.ProductMypriceRequestDto;
 import com.sparta.springcore.dto.ProductRequestDto;
 import com.sparta.springcore.repository.FolderRepository;
@@ -79,5 +80,14 @@ public class ProductService {
 
         product.addFolder(folder);
         return product;
+    }
+
+    @Transactional
+    public Long updateBySearch(Long id, ItemDto itemDto) {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+        product.updateByItemDto(itemDto);
+        return id;
     }
 }

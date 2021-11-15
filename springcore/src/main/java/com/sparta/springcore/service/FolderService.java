@@ -11,9 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +27,19 @@ public class FolderService {
         return folderRepository.findAllByUser(user);
     }
 
+    @Transactional
     public List<Folder> createFolders(List<String> folderNameList, User user) {
         List<Folder> folderList = new ArrayList<>();
         for(String folderName : folderNameList) {
+            Optional<Folder> folderInDB = folderRepository.findByNameAndUserId(folderName, user.getId());
+            if (folderInDB.isPresent()) {
+                throw new IllegalArgumentException("중복된 폴더명 (" + folderName +") 을 삭제하고 재시도해 주세요!");
+            }
+
             Folder folder = new Folder(folderName, user);
+            folder = folderRepository.save(folder);
             folderList.add(folder);
         }
-        folderList = folderRepository.saveAll(folderList);
         return folderList;
     }
 

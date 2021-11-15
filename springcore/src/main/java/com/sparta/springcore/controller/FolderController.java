@@ -43,17 +43,4 @@ public class FolderController {
                                              @RequestParam("isAsc") boolean isAsc) {
         return folderService.getProductsOnFolder(userDetails.getUser(), page-1, size, sortBy, isAsc, folderId);
     }
-
-    @ExceptionHandler({ IllegalArgumentException.class })
-    public ResponseEntity<Object> handle(IllegalArgumentException ex) {
-        ApiException apiException = new ApiException(
-                ex.getMessage(),
-                HttpStatus.BAD_REQUEST // http 400 error - client error
-        );
-
-        return new ResponseEntity<>(
-                apiException,
-                HttpStatus.BAD_REQUEST
-        );
-    }
 }

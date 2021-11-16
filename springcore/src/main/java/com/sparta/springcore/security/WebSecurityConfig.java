@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated() // 모든 요청은 '인증 완료' 후에 허용
                 .and()
                 // 예외처리 핸들러: JwtAuthenticationEntryPoint

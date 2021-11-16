@@ -16,7 +16,7 @@ import java.util.List;
 public class UserTimeController {
     private final UserTimeRepository userTimeRepository;
 
-    @Secured("ROLE_ADMIN") // 'Authorization'
+    @Secured("ROLE_ADMIN") // '인가' 필요
     @GetMapping("/user/time")
     public List<UserTimeDto> getUserTime() {
         List<UserTime> allUserTime = userTimeRepository.findAll();

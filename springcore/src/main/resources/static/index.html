@@ -22,7 +22,7 @@
 <body>
 <div class="header" style="position:relative;">
     <div id="header-title-login-user">
-        <span th:text="${username}"></span> 님의
+        <span id="username"></span> 님의
     </div>
     <div id="header-title-select-shop">
         Select Shop
@@ -44,13 +44,13 @@
         <div>
             <button id="folder-all" class="folder-bar-item folder-button product-folder folder-active" onclick="openFolder()">전체</button>
         </div>
-        <div th:each="folder : ${folders}">
-            <button class="folder-bar-item folder-button product-folder"
-                    th:value="${folder.id}"
-                    th:utext="${folder.name}"
-                    th:attr="onclick=|openFolder(${folder.id})|">
-            </button>
-        </div>
+<!--        <div th:each="folder : ${folders}">-->
+<!--            <button class="folder-bar-item folder-button product-folder"-->
+<!--                    th:value="${folder.id}"-->
+<!--                    th:utext="${folder.name}"-->
+<!--                    th:attr="onclick=|openFolder(${folder.id})|">-->
+<!--            </button>-->
+<!--        </div>-->
         <div>
             <button id="folder-add" class="folder-bar-item folder-button product-folder" onclick="openAddFolderPopup()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30px" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
